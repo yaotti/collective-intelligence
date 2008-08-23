@@ -16,6 +16,7 @@ def initializeUserDict(tag, count = 5):
 def fillItems(user_dict):
     all_items = {}
     for user in user_dict:
+        print 'user: '+user
         for i in range(3):
             try:
                 posts = get_userposts(user)
@@ -24,7 +25,8 @@ def fillItems(user_dict):
                 print "Failed user " + user + ", retrying"
                 time.sleep(4)
         for post in posts:
-            url = post['url']
+            #print post
+            url = post['link']
             user_dict[user][url] = 1.0
             all_items[url] = 1
     for ratings in user_dict.values():
@@ -32,7 +34,3 @@ def fillItems(user_dict):
             if item not in ratings:
                 ratings[item] = 0.0
 
-
-        
-
-        

@@ -33,11 +33,12 @@ def get_userposts(user):
     url = base_url + user + '/rss?of='
     page = 0
     entries = []
-    while(1):
+    #while(page < 25):
+    while(page < 2):
         entry = dict()
         d = feedparser.parse(url+str(page*20))
         if (not d.entries): break
-        time.sleep(1)
+        time.sleep(0.2)
         for entry_data in d.entries:
             entry['link'] = entry_data.link
             # tag data
@@ -46,6 +47,8 @@ def get_userposts(user):
                 tags = entry_data.tags
             entry['tags'] = tags
             entries.append(entry)
+        #t
+        print 'crowled: '+str(page*20)
         page += 1
     return  entries
 
