@@ -1,8 +1,8 @@
-# -*- coding:utf-8 -*-
+# coding:utf-8 -*-
+# hatebu API for python
 import feedparser
 import time
 from BeautifulSoup import *
-
 base_url = 'http://b.hatena.ne.jp/'
 
 
@@ -16,6 +16,10 @@ def get_popular(tag='', threshold='5'):
         entry['url'] = entry_data.id
         # Description
         entry['description'] = entry_data.summary_detail.value.encode('utf-8')
+        #entry['description'] = unicode(entry_data.summary_detail.value)
+        #entry['description'] = entry_data.summary_detail.value
+        # test
+        #print entry['description'].encode('utf-8')
         # user id
         comment_page = feedparser.parse('http://b.hatena.ne.jp/entry/rss/'+entry['url']).entries
         user_ids = []
@@ -23,18 +27,17 @@ def get_popular(tag='', threshold='5'):
             user_ids.append(user.title)
         entry['user'] = user_ids
         entries.append(entry)
-
     return entries
         
-
 # return all posts of the user
 # url, tags
 def get_userposts(user):
     url = base_url + user + '/rss?of='
     page = 0
     entries = []
-    #while(page < 25):
-    while(page < 2):
+    maxentry = 500
+    while(page < maxentry/20):
+    #while(page < 2):
         entry = dict()
         d = feedparser.parse(url+str(page*20))
         if (not d.entries): break
@@ -66,6 +69,8 @@ def get_urlposts(url):
         posts.append(post)
     return posts
 
+#doesn't work
+#char code
 #return url, tags, title
 def get_hotentry():
     url = base_url+'hotentry?mode=rss'
@@ -74,6 +79,7 @@ def get_hotentry():
     for entry in d.entries:
         entrydata = dict()
         entrydata['title'] = entry.title.encode('utf-8')
+        #entrydata['title'] = entry.title
         entrydata['url'] = entry.link
         tags = []
         # tag data

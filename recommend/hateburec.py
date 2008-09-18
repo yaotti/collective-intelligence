@@ -1,7 +1,9 @@
-# utf-8 -*-
+# -*- coding: utf-8 -*-
+# get hatebu data
 from pyhatebu import get_popular, get_userposts, get_urlposts
 import time
 
+# get user data and put data in a dict
 def initializeUserDict(tag, count = 5):
     user_dict = {}
     # get the top count' popular posts 
@@ -10,9 +12,10 @@ def initializeUserDict(tag, count = 5):
         for p2 in get_urlposts(p1['url']):
             user=p2['user']
             user_dict[user]={}
+    print user_dict
     return user_dict
 
-
+# get post data of each users and put data in the dict
 def fillItems(user_dict):
     all_items = {}
     for user in user_dict:
